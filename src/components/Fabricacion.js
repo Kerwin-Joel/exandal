@@ -16,7 +16,7 @@ const Fabricacion = ()=> {
 
     React.useEffect(()=>{
         const getData = async ()=>{
-            const response = await fetch('http://localhost:8080/registro');
+            const response = await fetch('https://exandal.herokuapp.com/registro');
             const data = await response.json();
             setDatos(data.data);
         }

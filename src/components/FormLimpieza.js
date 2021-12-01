@@ -64,7 +64,7 @@ const FormLimpieza = () => {
   const [fecRegistro, setFecRegistro] = React.useState(new Date());
   const [hora, setHora] = React.useState(new Date());
   const [unidad, setUnidad] = useState('')
-  const [ObjPost, setObjPost] = useState({}) // en objpost esta el obj global para el post
+  const [objPost, setObjPost] = useState({}) // en objpost esta el obj global para el post
   
 
   const handleChange = (newValue) => {
@@ -76,9 +76,45 @@ const FormLimpieza = () => {
     event.preventDefault();
     setObjPost({...formik.values, fecha: value, hora: hora, unidad: unidad, fechaRegistro: fecRegistro})
     console.log('dasdas');
-    const data = await fetch('http://localhost:8080/registro')
-    const response = await data.json()
-    console.log(response)
+
+    // const data = await fetch('https://exandal.herokuapp.com/registro',{
+    //   method: 'POST',
+    //   body: JSON.stringify(ObjPost), 
+    //   headers:{
+    //     'Content-Type': 'application/json'
+    //   }
+    // })
+
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    let raw = JSON.stringify({
+      "codOperario": objPost.codOperario,
+      "descripcion": objPost.descripcion,
+      "fecha": objPost.fecha,
+      "fechaRegistro": objPost.fechaRegistro,
+      "hora": objPost.hora,
+      "lote": objPost.lote,
+      "material": objPost.material,
+      "nombreOperario": objPost.nombreOperario,
+      "nroFabricacion": objPost.nroFabricacion,
+      "peso": objPost.peso,
+      "turno": objPost.turno,
+      "unidad": objPost.unidad
+    });
+
+    let requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    fetch("https://exandal.herokuapp.com/registro", requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+    
 
   };
   const handleReset = () => {
