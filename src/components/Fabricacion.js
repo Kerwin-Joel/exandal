@@ -43,8 +43,7 @@ const Fabricacion = ()=> {
                 unidad:row.unidad,
                 peso:row.peso
             }
-            setFilas(filas => [...filas, sanitizedRow])
-            console.log(sanitizedRow)
+            return setFilas(filas => [...filas, sanitizedRow])
         })
     }, [datos])
 
